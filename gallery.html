@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Through My Brother's Lens — A Nature Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #2c2420;
+    --ink-faded: #6b5c54;
+    --ink-ghost: #b5a89e;
+    --parchment: #f8f3ec;
+    --parchment-warm: #f0e8d8;
+    --parchment-mid: #e8dccb;
+    --moss: #4a5e3a;
+    --moss-light: #7a9162;
+    --rust: #8b4a2a;
+    --rust-light: #c4754a;
+    --water: #3a5e72;
+    --water-light: #6a9aae;
+    --gold: #b88c3a;
+    --gold-light: #d4ac5a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Crimson Pro', Georgia, serif;
+    background-color: var(--parchment);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    text-align: center;
+    padding: 4rem 2rem 3rem;
+    border-bottom: 1px solid var(--parchment-mid);
+    background: linear-gradient(180deg, var(--parchment-warm) 0%, var(--parchment) 100%);
+    overflow: hidden;
+  }
+
+  .header-ornament {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--ink-ghost);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+
+  header h1 {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+
+  header h1 em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .header-sub {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--ink-faded);
+    max-width: 520px;
+    margin: 0 auto 2rem;
+    line-height: 1.5;
+  }
+
+  .header-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 0;
+    color: var(--ink-ghost);
+  }
+
+  .header-divider span {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .header-divider::before,
+  .header-divider::after {
+    content: '';
+    height: 1px;
+    width: 80px;
+    background: var(--parchment-mid);
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    border-bottom: 1px solid var(--parchment-mid);
+    background: var(--parchment);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  nav a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink-faded);
+    padding: 1rem 2rem;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  nav a:hover, nav a.active {
+    color: var(--rust);
+    border-bottom-color: var(--rust);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  section {
+    padding: 3.5rem 0;
+    border-bottom: 1px solid var(--parchment-mid);
+  }
+
+  section:last-child {
+    border-bottom: none;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Lora', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-intro {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--ink-faded);
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  /* ── GALLERY GRID ── */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .photo-card {
+    background: white;
+    border: 1px solid var(--parchment-mid);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+  }
+
+  .photo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(44,36,32,0.12);
+  }
+
+  /* Featured card spans 2 columns */
+  .photo-card.featured {
+    grid-column: span 2;
+  }
+
+  .photo-thumb {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    background: var(--parchment-warm);
+    filter: saturate(0.9) contrast(1.05);
+    transition: filter 0.3s;
+  }
+
+  .photo-card.featured .photo-thumb {
+    aspect-ratio: 16/7;
+  }
+
+  .photo-card:hover .photo-thumb {
+    filter: saturate(1.05) contrast(1.08);
+  }
+
+  /* Placeholder gradient for demo images */
+  .photo-thumb.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink-faded);
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .photo-meta {
+    padding: 1rem 1.1rem 1.1rem;
+    border-top: 1px solid var(--parchment-mid);
+  }
+
+  .photo-location {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+    margin-bottom: 0.25rem;
+  }
+
+  .photo-title {
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+
+  .photo-date {
+    font-size: 0.85rem;
+    color: var(--ink-ghost);
+    font-style: italic;
+  }
+
+  .photo-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 0.7rem;
+  }
+
+  .btn-ghost {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--parchment-mid);
+    color: var(--ink-faded);
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--rust-light);
+    color: var(--rust);
+    background: rgba(139,74,42,0.04);
+  }
+
+  .comment-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-ghost);
+    margin-left: auto;
+  }
+
+  /* ── LIGHTBOX ── */
+  #lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(28, 22, 18, 0.95);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  #lightbox.open {
+    display: flex;
+  }
+
+  .lightbox-inner {
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--parchment);
+    position: relative;
+  }
+
+  .lightbox-img {
+    width: 100%;
+    max-height: 55vh;
+    object-fit: cover;
+    display: block;
+  }
+
+  .lightbox-img.placeholder {
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--parchment-warm);
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--ink-faded);
+  }
+
+  .lightbox-body {
+    padding: 1.8rem 2rem 2rem;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(28,22,18,0.6);
+    border: none;
+    color: white;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 6px 14px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    z-index: 10;
+  }
+
+  .lightbox-close:hover { background: rgba(28,22,18,0.85); }
+
+  .lightbox-title {
+    font-family: 'Lora', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+
+  .lightbox-details {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .lightbox-detail {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+  }
+
+  /* ── COMMENTS ── */
+  .comments-divider {
+    border: none;
+    border-top: 1px solid var(--parchment-mid);
+    margin: 1.5rem 0;
+  }
+
+  .comments-heading {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+    font-style: italic;
+  }
+
+  .comment-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.3rem;
+    padding-bottom: 1.3rem;
+    border-bottom: 1px solid var(--parchment-mid);
+  }
+
+  .comment-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .comment-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    flex-shrink: 0;
+    color: white;
+  }
+
+  .comment-body { flex: 1; }
+
+  .comment-author {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.08em;
+  }
+
+  .comment-time {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-ghost);
+    margin-left: 0.75rem;
+  }
+
+  .comment-text {
+    font-size: 1rem;
+    color: var(--ink-faded);
+    line-height: 1.55;
+    margin-top: 0.25rem;
+  }
+
+  /* ── COMMENT FORM ── */
+  .comment-form {
+    background: var(--parchment-warm);
+    border: 1px solid var(--parchment-mid);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .form-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-note {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--ink-ghost);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .form-input, .form-textarea {
+    width: 100%;
+    border: 1px solid var(--parchment-mid);
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    padding: 0.6rem 0.85rem;
+    margin-bottom: 1rem;
+    outline: none;
+    transition: border-color 0.18s;
+  }
+
+  .form-input:focus, .form-textarea:focus {
+    border-color: var(--rust-light);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-prompt {
+    background: rgba(139,74,42,0.06);
+    border: 1px solid rgba(139,74,42,0.2);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--rust);
+    line-height: 1.5;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .btn-primary {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--rust);
+    color: var(--parchment);
+    border: none;
+    padding: 10px 24px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--rust-light); }
+
+  .btn-secondary {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: none;
+    color: var(--ink-faded);
+    border: 1px solid var(--parchment-mid);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 0.75rem;
+  }
+
+  .btn-secondary:hover { border-color: var(--ink-faded); }
+
+  /* ── SHARE BANNER ── */
+  .share-banner {
+    background: var(--parchment-warm);
+    border: 1px solid var(--parchment-mid);
+    border-left: 3px solid var(--moss);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .share-text { flex: 1; min-width: 240px; }
+
+  .share-title {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+
+  .share-sub {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--ink-faded);
+  }
+
+  .share-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-share {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--parchment-mid);
+    color: var(--ink-faded);
+    padding: 7px 14px;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-share:hover { border-color: var(--moss); color: var(--moss); }
+
+  /* ── CONTRIBUTE SECTION ── */
+  #contribute { background: none; }
+
+  .contribute-inner {
+    background: var(--parchment-warm);
+    border: 1px solid var(--parchment-mid);
+    padding: 2.5rem;
+    max-width: 700px;
+  }
+
+  .contribute-guidelines {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .guideline-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .guideline-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--moss);
+    margin-top: 0.55rem;
+    flex-shrink: 0;
+  }
+
+  .guideline-text {
+    font-size: 0.95rem;
+    color: var(--ink-faded);
+    line-height: 1.5;
+  }
+
+  .drop-zone {
+    border: 2px dashed var(--parchment-mid);
+    background: var(--parchment);
+    padding: 2.5rem;
+    text-align: center;
+    margin: 1.5rem 0;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: var(--rust-light);
+    background: rgba(196,117,74,0.04);
+  }
+
+  .drop-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .drop-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .drop-primary {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    color: var(--ink-faded);
+    margin-bottom: 0.2rem;
+  }
+
+  .drop-secondary {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-ghost);
+  }
+
+  /* ── ABOUT BAR ── */
+  .about-bar {
+    background: var(--parchment-warm);
+    border-top: 1px solid var(--parchment-mid);
+    padding: 2rem 1.5rem;
+    text-align: center;
+  }
+
+  .about-bar p {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--ink-faded);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 12px 20px;
+    z-index: 2000;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .photo-card {
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .photo-card:nth-child(1) { animation-delay: 0.05s; }
+  .photo-card:nth-child(2) { animation-delay: 0.1s; }
+  .photo-card:nth-child(3) { animation-delay: 0.15s; }
+  .photo-card:nth-child(4) { animation-delay: 0.2s; }
+  .photo-card:nth-child(5) { animation-delay: 0.25s; }
+  .photo-card:nth-child(6) { animation-delay: 0.3s; }
+  .photo-card:nth-child(7) { animation-delay: 0.35s; }
+  .photo-card:nth-child(8) { animation-delay: 0.4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .photo-card.featured { grid-column: span 1; }
+    .form-row { grid-template-columns: 1fr; }
+    .contribute-guidelines { grid-template-columns: 1fr; }
+    nav a { padding: 0.85rem 1rem; font-size: 10px; }
+    .share-banner { flex-direction: column; gap: 1rem; }
+    .lightbox-body { padding: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="header-ornament">A personal collection · Updated often</span>
+  <h1>Through <em>My Brother's</em> Lens</h1>
+  <p class="header-sub">He texts me a picture every day — a coastline, a sunset, a quiet field. This is where they live.</p>
+  <div class="header-divider"><span>Explore below</span></div>
+</header>
+
+<nav>
+  <a href="#gallery" class="active">Gallery</a>
+  <a href="#contribute">Contribute</a>
+  <a href="#about">About</a>
+</nav>
+
+<main>
+
+  <!-- ── GALLERY ── -->
+  <section id="gallery">
+    <span class="section-label">The Collection</span>
+    <h2 class="section-title">Pictures from afar</h2>
+    <p class="section-intro">Each photo arrived as a morning text. Click any image to read notes and leave a thought.</p>
+
+    <div class="gallery-grid" id="gallery-grid">
+      <!-- Cards injected by JS -->
+    </div>
+
+    <div class="share-banner">
+      <div class="share-text">
+        <div class="share-title">Know someone who'd love this?</div>
+        <div class="share-sub">Pass along a link — the world needs more people who look up.</div>
+      </div>
+      <div class="share-buttons">
+        <button class="btn-share" onclick="shareVia('copy')">Copy link</button>
+        <a class="btn-share" href="mailto:?subject=You%20need%20to%20see%20this%20gallery&body=A%20daily%20nature%20photo%20gallery%20worth%20visiting%3A%20" target="_blank">Email a friend</a>
+        <a class="btn-share" href="https://twitter.com/intent/tweet?text=This%20daily%20nature%20photo%20gallery%20is%20quietly%20wonderful%20%E2%80%94&url=" target="_blank">Share on Twitter</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTRIBUTE ── -->
+  <section id="contribute">
+    <span class="section-label">Join the collection</span>
+    <h2 class="section-title">Share a picture of your own</h2>
+    <p class="section-intro">If you've caught something beautiful — a light that only lasted a moment, a landscape that stopped you — send it here.</p>
+
+    <div class="contribute-inner">
+      <p style="font-size:1rem; color:var(--ink-faded); line-height:1.6; margin-bottom:1.2rem;">
+        This gallery is small and personal. Submissions are reviewed before appearing, to keep the collection thoughtful.
+      </p>
+
+      <div class="contribute-guidelines">
+        <div class="guideline-item">
+          <div class="guideline-dot"></div>
+          <p class="guideline-text">Nature, landscapes, coastlines, skies, and quiet places — nothing staged or heavily edited</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-dot"></div>
+          <p class="guideline-text">Your own original photo — phone cameras absolutely welcome</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-dot"></div>
+          <p class="guideline-text">Tell us where it was taken and what made you stop and look</p>
+        </div>
+        <div class="guideline-item">
+          <div class="guideline-dot"></div>
+          <p class="guideline-text">JPG or PNG, any resolution — we'll display it with care</p>
+        </div>
+      </div>
+
+      <div class="drop-zone" id="drop-zone">
+        <input type="file" accept="image/jpeg,image/png,image/webp" id="file-input">
+        <span class="drop-icon">☁</span>
+        <p class="drop-primary">Drop your photo here</p>
+        <p class="drop-secondary">or click to browse · jpg / png / webp</p>
+      </div>
+
+      <div id="file-name" style="font-family:'Space Mono',monospace;font-size:10px;color:var(--moss);margin-bottom:1rem;display:none;"></div>
+
+      <div class="form-row">
+        <div>
+          <label class="form-label">Your name</label>
+          <input class="form-input" type="text" id="contrib-name" placeholder="How you'd like to be credited">
+        </div>
+        <div>
+          <label class="form-label">Where was this taken?</label>
+          <input class="form-input" type="text" id="contrib-location" placeholder="City, coastline, park…">
+        </div>
+      </div>
+
+      <label class="form-label">What made you stop and take this picture?</label>
+      <p class="form-note">A sentence or two is perfect. This becomes the note shown with your photo.</p>
+      <textarea class="form-textarea" id="contrib-note" placeholder="The fog had just started to lift…"></textarea>
+
+      <label class="form-label">Your email (never published)</label>
+      <input class="form-input" type="email" id="contrib-email" placeholder="So we can let you know if it's included">
+
+      <button class="btn-primary" onclick="submitContribution()">Submit for review</button>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <span class="section-label">The story behind this</span>
+    <h2 class="section-title">A daily gift</h2>
+    <p style="font-size:1.1rem;line-height:1.7;color:var(--ink-faded);max-width:620px;">
+      My brother has always seen the world differently — he notices the light before anyone else does. A few years ago he started sending me a photo every morning. Not to show off, not to caption, just to share. This gallery is my way of giving those pictures a home, and of sharing that small daily beauty with anyone who wanders by.
+    </p>
+    <p style="font-size:1.1rem;line-height:1.7;color:var(--ink-faded);max-width:620px;margin-top:1.2rem;font-style:italic;">
+      Comments are welcome — and moderated. Say something true, or say nothing at all.
+    </p>
+  </section>
+
+</main>
+
+<div class="about-bar">
+  <p>Built with care · Photos © their respective creators · Comments reviewed before appearing</p>
+</div>
+
+<!-- ── LIGHTBOX ── -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">✕ close</button>
+    <div id="lb-img-wrap"></div>
+    <div class="lightbox-body">
+      <h2 class="lightbox-title" id="lb-title"></h2>
+      <div class="lightbox-details">
+        <span class="lightbox-detail" id="lb-location"></span>
+        <span class="lightbox-detail" id="lb-date"></span>
+      </div>
+      <p style="font-size:1.05rem;color:var(--ink-faded);line-height:1.65;font-style:italic;" id="lb-note"></p>
+
+      <hr class="comments-divider">
+      <h3 class="comments-heading" id="lb-comments-title">Thoughts from visitors</h3>
+      <div id="lb-comments"></div>
+
+      <div class="comment-form">
+        <h4 style="font-family:'Lora',serif;font-weight:400;font-size:1rem;color:var(--ink);margin-bottom:0.5rem;">Leave a note</h4>
+        <div class="form-prompt">
+          Before you write: what is one specific thing you notice in this photograph?
+        </div>
+        <div class="form-row" style="margin-bottom:0;">
+          <div>
+            <label class="form-label">Your name</label>
+            <input class="form-input" type="text" id="comment-name" placeholder="First name is fine">
+          </div>
+          <div>
+            <label class="form-label">Where are you writing from?</label>
+            <input class="form-input" type="text" id="comment-place" placeholder="City or country">
+          </div>
+        </div>
+        <label class="form-label">Your thought</label>
+        <textarea class="form-textarea" id="comment-text" placeholder="The way the light falls here reminds me of…" style="min-height:80px;"></textarea>
+        <button class="btn-primary" onclick="submitComment()">Submit for review</button>
+        <button class="btn-secondary" onclick="closeLightbox()">Never mind</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<script>
+const PHOTOS = [
+  {
+    id: 1,
+    featured: true,
+    src: null,
+    placeholder: "Golden hour, Pacific coastline",
+    gradientA: "#d4a55a", gradientB: "#7a5a2a",
+    title: "The last light over the water",
+    location: "Pacific Coast Highway, California",
+    date: "May 14, 2025",
+    note: "He sent this one just before 8 pm. No message, just the photo. That's all it needed.",
+    comments: [
+      { name: "Elaine", place: "Portland, OR", avatar: "#7a9162", text: "The way the water is catching that warm light — I could almost feel the warmth on my face." },
+      { name: "Marcus", place: "Edinburgh, Scotland", avatar: "#3a5e72", text: "I've stood on cliffs like this and it never gets ordinary. Thank you for sharing it." }
+    ]
+  },
+  {
+    id: 2,
+    src: null,
+    placeholder: "Dawn mist over a mountain valley",
+    gradientA: "#a0b8c8", gradientB: "#5a7080",
+    title: "Before the valley woke up",
+    location: "Blue Ridge Parkway, Virginia",
+    date: "March 3, 2025",
+    note: "He pulled over on the way to somewhere else. Glad he did.",
+    comments: [
+      { name: "Vera", place: "Zurich", avatar: "#8b4a2a", text: "That thin band of mist between the ridges — it looks like the mountains are breathing." }
+    ]
+  },
+  {
+    id: 3,
+    src: null,
+    placeholder: "Rocky coastline, stormy sky",
+    gradientA: "#607080", gradientB: "#304050",
+    title: "Between the squalls",
+    location: "Acadia National Park, Maine",
+    date: "October 11, 2024",
+    note: "Apparently it was 40 degrees and starting to rain. He still got out of the car.",
+    comments: []
+  },
+  {
+    id: 4,
+    src: null,
+    placeholder: "Desert sunset, pink and gold",
+    gradientA: "#c47050", gradientB: "#804030",
+    title: "The desert going quiet",
+    location: "Joshua Tree, California",
+    date: "January 29, 2025",
+    note: "He camped out here for a weekend. This was the reward.",
+    comments: [
+      { name: "Priya", place: "Austin, TX", avatar: "#4a5e3a", text: "The silhouette of that Joshua tree against the gradient of the sky — it's like a woodcut print." },
+      { name: "Tom", place: "London, UK", avatar: "#3a5e72", text: "I've never been to the desert. This makes me want to go." }
+    ]
+  },
+  {
+    id: 5,
+    src: null,
+    placeholder: "Autumn forest path, light filtering through leaves",
+    gradientA: "#c4903a", gradientB: "#7a5a20",
+    title: "Walking into October",
+    location: "Shenandoah Valley, Virginia",
+    date: "October 28, 2024",
+    note: "He walks the same trail every fall. Says it changes every year.",
+    comments: []
+  },
+  {
+    id: 6,
+    src: null,
+    placeholder: "Tide pools at low tide, early morning",
+    gradientA: "#5a9090", gradientB: "#2a5060",
+    title: "What the tide left behind",
+    location: "Cannon Beach, Oregon",
+    date: "February 8, 2025",
+    note: "This took patience. He waited for the sea star to not move.",
+    comments: [
+      { name: "Hana", place: "Kyoto, Japan", avatar: "#8b4a2a", text: "The reflections in the pools look like little windows into another world." }
+    ]
+  },
+  {
+    id: 7,
+    src: null,
+    placeholder: "Thunderstorm over open plains",
+    gradientA: "#607890", gradientB: "#2a3040",
+    title: "The storm that passed to the south",
+    location: "Flint Hills, Kansas",
+    date: "June 3, 2025",
+    note: "He pulled over on the highway. Said the whole sky was alive.",
+    comments: []
+  },
+  {
+    id: 8,
+    src: null,
+    placeholder: "Alpine meadow, wildflowers in bloom",
+    gradientA: "#7aac7a", gradientB: "#3a6a3a",
+    title: "A field that couldn't help itself",
+    location: "Mount Rainier, Washington",
+    date: "July 19, 2024",
+    note: "He hiked six miles to get here. Says it was worth every step.",
+    comments: [
+      { name: "Brigid", place: "Dublin, Ireland", avatar: "#4a5e3a", text: "I study plants and still nothing prepares you for a meadow like this in full bloom." }
+    ]
+  }
+];
+
+let activePhoto = null;
+
+function buildGallery() {
+  const grid = document.getElementById('gallery-grid');
+  PHOTOS.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'photo-card' + (p.featured ? ' featured' : '');
+    card.onclick = () => openLightbox(p);
+
+    const imgHtml = p.src
+      ? `<img class="photo-thumb" src="${p.src}" alt="${p.title}" loading="lazy">`
+      : `<div class="photo-thumb placeholder" style="background:linear-gradient(135deg,${p.gradientA},${p.gradientB});color:rgba(255,255,255,0.75);font-family:'Lora',serif;">${p.placeholder}</div>`;
+
+    card.innerHTML = `
+      ${imgHtml}
+      <div class="photo-meta">
+        <div class="photo-location">${p.location}</div>
+        <div class="photo-title">${p.title}</div>
+        <div class="photo-date">${p.date}</div>
+        <div class="photo-actions">
+          <button class="btn-ghost" onclick="event.stopPropagation();openLightbox(PHOTOS[${i}])">View &amp; comment</button>
+          <span class="comment-count">${p.comments.length} note${p.comments.length !== 1 ? 's' : ''}</span>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function openLightbox(photo) {
+  activePhoto = photo;
+  const lb = document.getElementById('lightbox');
+
+  const imgWrap = document.getElementById('lb-img-wrap');
+  if (photo.src) {
+    imgWrap.innerHTML = `<img class="lightbox-img" src="${photo.src}" alt="${photo.title}">`;
+  } else {
+    imgWrap.innerHTML = `<div class="lightbox-img placeholder" style="height:320px;background:linear-gradient(135deg,${photo.gradientA},${photo.gradientB});display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.8);font-family:'Lora',serif;font-style:italic;font-size:1.1rem;text-align:center;padding:2rem;">${photo.placeholder}</div>`;
+  }
+
+  document.getElementById('lb-title').textContent = photo.title;
+  document.getElementById('lb-location').textContent = '📍 ' + photo.location;
+  document.getElementById('lb-date').textContent = photo.date;
+  document.getElementById('lb-note').textContent = photo.note;
+
+  const commentsEl = document.getElementById('lb-comments');
+  const titleEl = document.getElementById('lb-comments-title');
+
+  if (photo.comments.length === 0) {
+    titleEl.textContent = 'Be the first to leave a note';
+    commentsEl.innerHTML = '<p style="font-size:0.95rem;color:var(--ink-ghost);font-style:italic;margin-bottom:1rem;">No one has commented yet. Say something thoughtful.</p>';
+  } else {
+    titleEl.textContent = `${photo.comments.length} note${photo.comments.length !== 1 ? 's' : ''} from visitors`;
+    commentsEl.innerHTML = photo.comments.map(c => `
+      <div class="comment-item">
+        <div class="comment-avatar" style="background:${c.avatar};">${c.name[0]}</div>
+        <div class="comment-body">
+          <div><span class="comment-author">${c.name}</span><span class="comment-time">· ${c.place}</span></div>
+          <p class="comment-text">${c.text}</p>
+        </div>
+      </div>`).join('');
+  }
+
+  // Clear form
+  ['comment-name','comment-place','comment-text'].forEach(id => document.getElementById(id).value = '');
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+function submitComment() {
+  const name = document.getElementById('comment-name').value.trim();
+  const place = document.getElementById('comment-place').value.trim();
+  const text = document.getElementById('comment-text').value.trim();
+
+  if (!name || !text) { showToast('Please fill in your name and note.'); return; }
+  if (text.length < 20) { showToast('A little more thought, please — at least a sentence.'); return; }
+
+  showToast('Thank you! Your note is awaiting review before appearing here.');
+  closeLightbox();
+}
+
+function submitContribution() {
+  const name = document.getElementById('contrib-name').value.trim();
+  const location = document.getElementById('contrib-location').value.trim();
+  const note = document.getElementById('contrib-note').value.trim();
+  const email = document.getElementById('contrib-email').value.trim();
+
+  if (!name || !location || !note) { showToast('Please fill in all the fields.'); return; }
+  if (note.length < 30) { showToast('Tell us a bit more about what made you stop and look.'); return; }
+
+  showToast('Submitted! We\'ll review and be in touch. Thank you for contributing.');
+  ['contrib-name','contrib-location','contrib-note','contrib-email'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('file-name').style.display = 'none';
+}
+
+function shareVia(method) {
+  const url = window.location.href;
+  if (method === 'copy') {
+    navigator.clipboard.writeText(url).then(() => showToast('Link copied to clipboard.'));
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// File drop zone
+const dz = document.getElementById('drop-zone');
+const fi = document.getElementById('file-input');
+const fn = document.getElementById('file-name');
+
+fi.addEventListener('change', () => {
+  if (fi.files[0]) {
+    fn.textContent = '✓ ' + fi.files[0].name;
+    fn.style.display = 'block';
+  }
+});
+
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
+dz.addEventListener('drop', e => {
+  e.preventDefault();
+  dz.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) { fn.textContent = '✓ ' + file.name; fn.style.display = 'block'; }
+});
+
+// Smooth scroll nav
+document.querySelectorAll('nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('nav a').forEach(x => x.classList.remove('active'));
+    a.classList.add('active');
+  });
+});
+
+buildGallery();
+</script>
+</body>
+</html>
