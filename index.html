@@ -1123,7 +1123,7 @@ function submitComment() {
     form.submit();
 }
 
-function submitContribution() {
+async function submitContribution() {
   const name = document.getElementById('contrib-name').value.trim();
   const location = document.getElementById('contrib-location').value.trim();
   const note = document.getElementById('contrib-note').value.trim();
@@ -1137,36 +1137,38 @@ function submitContribution() {
   btn.textContent = 'Sending…';
   btn.disabled = true;
 
-  // Create a temporary form to submit natively and bypass CORS blocks
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = 'https://app.forminit.com/f/p24h6j2jh83';
-  form.enctype = 'multipart/form-data';
+  try {
+    const formData = new FormData();
+    formData.append('_subject', 'New photo contribution from ' + name);
+    formData.append('type', 'contribution');
+    formData.append('name', name);
+    formData.append('location', location);
+    formData.append('note', note);
+    formData.append('email', email);
+    
+    if (fileInput.files[0]) {
+      formData.append('photo', fileInput.files[0]);
+    }
 
-  const fields = {
-    '_subject': 'New photo contribution from ' + name,
-    'type': 'contribution',
-    'name': name,
-    'location': location,
-    'note': note,
-    'email': email
-  };
+    // Direct submission to your Forminit endpoint
+    const res = await fetch('https://app.forminit.com/f/p24h6j2jh83', {
+      method: 'POST',
+      mode: 'no-cors', // Bypasses the strict cross-origin restrictions
+      body: formData
+    });
 
-  for (const [key, value] of Object.entries(fields)) {
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = key;
-    input.value = value;
-    form.appendChild(input);
+    // Since 'no-cors' mode hides the server response status, we treat a completed network request as success
+    showToast('Submitted! We\'ll review and be in touch. Thank you for contributing.');
+    ['contrib-name','contrib-location','contrib-note','contrib-email'].forEach(id => document.getElementById(id).value = '');
+    fileInput.value = '';
+    document.getElementById('file-name').style.display = 'none';
+
+  } catch(e) {
+    showToast('Could not send — check your connection and try again.');
+  } finally {
+    btn.textContent = 'Submit for review';
+    btn.disabled = false;
   }
-
-  if (fileInput.files[0]) {
-    // Clone the file input into our background form for processing
-    form.appendChild(fileInput.cloneNode(true));
-  }
-
-  document.body.appendChild(form);
-  form.submit();
 }
 function shareVia(method) {
   const url = window.location.href;
