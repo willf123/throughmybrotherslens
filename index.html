@@ -1152,7 +1152,7 @@ async function submitContribution() {
   btn.textContent = 'Sending…';
   btn.disabled = true;
 
-try {
+  try {
     const formData = new FormData();
     formData.append('form-name', 'photo-contributions');
     formData.append('name', name);
@@ -1164,11 +1164,10 @@ try {
       formData.append('photo', fileInput.files[0]); 
     }
 
-    // Adding the headers configuration prevents the Netlify 404 router block
+    // This clean block allows multipart/form-data to stream flawlessly with the file
     const res = await fetch('/', {
       method: 'POST',
-      headers: { "Accept": "application/x-www-form-urlencoded; charset=utf-8" },
-      body: new URLSearchParams(formData).toString() ? formData : formData // Handles fallback multi-part parsing natively
+      body: formData
     });
 
     if (res.ok) {
