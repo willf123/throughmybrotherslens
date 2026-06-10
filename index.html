@@ -874,7 +874,7 @@
       Comments are welcome — and moderated. Say something true, or say nothing at all.
     </p>
   </section>
-<form name="photo-contributions" data-netlify="true" hidden>
+<form name="photo-submissions" data-netlify="true" hidden>
   <input type="text" name="name">
   <input type="text" name="location">
   <input type="textarea" name="note">
@@ -882,7 +882,7 @@
   <input type="file" name="photo">
 </form>
 
-<form name="lightbox-comments" data-netlify="true" hidden>
+<form name="gallery-comments" data-netlify="true" hidden>
   <input type="text" name="photo">
   <input type="text" name="name">
   <input type="text" name="place">
@@ -1112,7 +1112,7 @@ async function submitComment() {
   try {
     const formData = new FormData();
     // Tells Netlify to route this data to a separate "lightbox-comments" inbox
-    formData.append('form-name', 'lightbox-comments');
+    formData.append('form-name', 'gallery-comments');
     formData.append('photo', activePhoto ? activePhoto.title : '');
     formData.append('name', name);
     formData.append('place', place);
@@ -1153,7 +1153,7 @@ async function submitContribution() {
 
   try {
     const formData = new FormData();
-    formData.append('form-name', 'photo-contributions');
+    formData.append('form-name', 'photo-submissions');
     formData.append('name', name);
     formData.append('location', location);
     formData.append('note', note);
