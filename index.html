@@ -763,6 +763,14 @@
 </head>
 <body>
 
+<form name="photo-contributions" data-netlify="true" hidden>
+  <input type="text" name="name">
+  <input type="text" name="location">
+  <input type="textarea" name="note">
+  <input type="email" name="email">
+  <input type="file" name="photo">
+</form>  
+  
 <header>
   <span class="header-ornament">A personal collection · Updated often</span>
   <h1>Through <em>My Brother's</em> Lens</h1>
@@ -1097,19 +1105,14 @@ async function submitComment() {
 
   try {
     const formData = new FormData();
-    // Web3Forms configuration fields
-    formData.append('access_key', 'ea3bbe86-37a3-4259-a6a5-064f892152de');
-    formData.append('subject', 'New comment on: ' + (activePhoto ? activePhoto.title : 'a photo'));
-    formData.append('from_name', 'Through My Brother\'s Lens Gallery');
-
-    // Your form fields
-    formData.append('type', 'comment');
+    // Tells Netlify to route this data to a separate "lightbox-comments" inbox
+    formData.append('form-name', 'lightbox-comments');
     formData.append('photo', activePhoto ? activePhoto.title : '');
     formData.append('name', name);
     formData.append('place', place);
     formData.append('comment', text);
 
-    const res = await fetch('https://api.web3forms.com/submit', {
+    const res = await fetch('/', {
       method: 'POST',
       body: formData
     });
@@ -1128,7 +1131,7 @@ async function submitComment() {
     btn.disabled = false;
   }
 }
-function submitContribution() {
+async function submitContribution() {
   const name = document.getElementById('contrib-name').value.trim();
   const location = document.getElementById('contrib-location').value.trim();
   const note = document.getElementById('contrib-note').value.trim();
@@ -1142,47 +1145,41 @@ function submitContribution() {
   btn.textContent = 'Sending…';
   btn.disabled = true;
 
-  // Create a temporary native form to bypass Web3Forms fetch restrictions
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = 'https://api.web3forms.com/submit';
-  form.enctype = 'multipart/form-data';
+  try {
+    const formData = new FormData();
+    // This tells Netlify which form inbox to route the data to
+    formData.append('form-name', 'photo-contributions');
+    
+    // Core submission data matching your layout names
+    formData.append('name', name);
+    formData.append('location', location);
+    formData.append('note', note);
+    formData.append('email', email);
+    
+    if (fileInput.files[0]) {
+      formData.append('photo', fileInput.files[0]); 
+    }
 
-  // Configuration and text fields
-  const fields = {
-    'access_key': 'ea3bbe86-37a3-4259-a6a5-064f892152de',
-    'subject': 'New photo contribution from ' + name,
-    'from_name': 'Through My Brother\'s Lens Gallery',
-    'type': 'contribution',
-    'name': name,
-    'location': location,
-    'note': note,
-    'email': email,
-    // Redirect back to your gallery after a successful upload
-    'redirect': 'https://willf123.github.io/throughmybrotherslens/'
-  };
+    // Submit seamlessly to your own Netlify background router
+    const res = await fetch('/', {
+      method: 'POST',
+      body: formData
+    });
 
-  for (const [key, value] of Object.entries(fields)) {
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = key;
-    input.value = value;
-    form.appendChild(input);
+    if (res.ok) {
+      showToast('Submitted! We\'ll review and be in touch. Thank you for contributing.');
+      ['contrib-name','contrib-location','contrib-note','contrib-email'].forEach(id => document.getElementById(id).value = '');
+      fileInput.value = '';
+      document.getElementById('file-name').style.display = 'none';
+    } else {
+      showToast('Something went wrong — please try again.');
+    }
+  } catch(e) {
+    showToast('Could not connect — check your network and try again.');
+  } finally {
+    btn.textContent = 'Submit for review';
+    btn.disabled = false;
   }
-
-  if (fileInput.files[0]) {
-    // Append a clone of the actual file input to the form
-    const fileClone = fileInput.cloneNode();
-    // JavaScript security requires transferring the exact file list references over
-    const dataTransfer = new DataTransfer();
-    dataTransfer.items.add(fileInput.files[0]);
-    fileClone.files = dataTransfer.files;
-    fileClone.name = 'attachment'; // Web3Forms looks for 'attachment'
-    form.appendChild(fileClone);
-  }
-
-  document.body.appendChild(form);
-  form.submit();
 }
 function shareVia(method) {
   const url = window.location.href;
