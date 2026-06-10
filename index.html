@@ -1097,14 +1097,19 @@ async function submitComment() {
 
   try {
     const formData = new FormData();
-    formData.append('_subject', 'New comment on: ' + (activePhoto ? activePhoto.title : 'a photo'));
+    // Web3Forms configuration fields
+    formData.append('access_key', 'ea3bbe86-37a3-4259-a6a5-064f892152de');
+    formData.append('subject', 'New comment on: ' + (activePhoto ? activePhoto.title : 'a photo'));
+    formData.append('from_name', 'Through My Brother\'s Lens Gallery');
+
+    // Your form fields
     formData.append('type', 'comment');
     formData.append('photo', activePhoto ? activePhoto.title : '');
     formData.append('name', name);
     formData.append('place', place);
     formData.append('comment', text);
 
-    const res = await fetch('https://app.forminit.com/f/p24h6j2jh83', {
+    const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       body: formData
     });
@@ -1139,7 +1144,12 @@ async function submitContribution() {
 
   try {
     const formData = new FormData();
-    formData.append('_subject', 'New photo contribution from ' + name);
+    // Web3Forms configuration fields
+    formData.append('access_key', 'ea3bbe86-37a3-4259-a6a5-064f892152de');
+    formData.append('subject', 'New photo contribution from ' + name);
+    formData.append('from_name', 'Through My Brother\'s Lens Gallery');
+    
+    // Your form fields
     formData.append('type', 'contribution');
     formData.append('name', name);
     formData.append('location', location);
@@ -1147,10 +1157,10 @@ async function submitContribution() {
     formData.append('email', email);
     
     if (fileInput.files[0]) {
-      formData.append('photo', fileInput.files[0]);
+      formData.append('attachment', fileInput.files[0]); // Web3Forms expects 'attachment' for files
     }
 
-    const res = await fetch('https://app.forminit.com/f/p24h6j2jh83', {
+    const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       body: formData
     });
