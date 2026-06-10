@@ -1212,9 +1212,14 @@ dz.addEventListener('drop', e => {
   e.preventDefault();
   dz.classList.remove('dragover');
   const file = e.dataTransfer.files[0];
-  if (file) { fn.textContent = '✓ ' + file.name; fn.style.display = 'block'; }
+  if (file) {
+    // This line physically links the dropped file to your file input element
+    fi.files = e.dataTransfer.files; 
+    
+    fn.textContent = '✓ ' + file.name;
+    fn.style.display = 'block';
+  }
 });
-
 // Smooth scroll nav
 document.querySelectorAll('nav a').forEach(a => {
   a.addEventListener('click', e => {
