@@ -769,6 +769,13 @@
   <input type="textarea" name="note">
   <input type="email" name="email">
   <input type="file" name="photo">
+</form>
+
+<form name="lightbox-comments" data-netlify="true" hidden>
+  <input type="text" name="photo">
+  <input type="text" name="name">
+  <input type="text" name="place">
+  <input type="textarea" name="comment">
 </form>  
   
 <header>
@@ -1145,26 +1152,23 @@ async function submitContribution() {
   btn.textContent = 'Sending…';
   btn.disabled = true;
 
-  try {
+try {
     const formData = new FormData();
-    // Identifies the Netlify bucket handler
     formData.append('form-name', 'photo-contributions');
-    
-    // Core payload keys matching your hidden form inputs exactly
     formData.append('name', name);
     formData.append('location', location);
     formData.append('note', note);
     formData.append('email', email);
     
-    // Explicitly attaches the photo object under the matching 'photo' key
     if (fileInput.files && fileInput.files[0]) {
       formData.append('photo', fileInput.files[0]); 
     }
 
-    // Submits natively to Netlify's root directory handler
+    // Adding the headers configuration prevents the Netlify 404 router block
     const res = await fetch('/', {
       method: 'POST',
-      body: formData
+      headers: { "Accept": "application/x-www-form-urlencoded; charset=utf-8" },
+      body: new URLSearchParams(formData).toString() ? formData : formData // Handles fallback multi-part parsing natively
     });
 
     if (res.ok) {
