@@ -1147,20 +1147,21 @@ async function submitContribution() {
 
   try {
     const formData = new FormData();
-    // This tells Netlify which form inbox to route the data to
+    // Identifies the Netlify bucket handler
     formData.append('form-name', 'photo-contributions');
     
-    // Core submission data matching your layout names
+    // Core payload keys matching your hidden form inputs exactly
     formData.append('name', name);
     formData.append('location', location);
     formData.append('note', note);
     formData.append('email', email);
     
-    if (fileInput.files[0]) {
+    // Explicitly attaches the photo object under the matching 'photo' key
+    if (fileInput.files && fileInput.files[0]) {
       formData.append('photo', fileInput.files[0]); 
     }
 
-    // Submit seamlessly to your own Netlify background router
+    // Submits natively to Netlify's root directory handler
     const res = await fetch('/', {
       method: 'POST',
       body: formData
