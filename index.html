@@ -1082,47 +1082,47 @@ document.getElementById('lightbox').addEventListener('click', function(e) {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
-function submitComment() {
-    const name = document.getElementById('comment-name').value.trim();
-    const place = document.getElementById('comment-place').value.trim();
-    const text = document.getElementById('comment-text').value.trim();
+async function submitComment() {
+  const name = document.getElementById('comment-name').value.trim();
+  const place = document.getElementById('comment-place').value.trim();
+  const text = document.getElementById('comment-text').value.trim();
 
-    if (!name || !text) {
-        showToast('Please fill in your name and note.');
-        return;
+  if (!name || !text) { showToast('Please fill in your name and note.'); return; }
+  if (text.length < 20) { showToast('A little more thought, please — at least a sentence.'); return; }
+
+  const btn = document.querySelector('.comment-form .btn-primary');
+  const originalText = btn.textContent;
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  try {
+    const formData = new FormData();
+    formData.append('_subject', 'New comment on: ' + (activePhoto ? activePhoto.title : 'a photo'));
+    formData.append('type', 'comment');
+    formData.append('photo', activePhoto ? activePhoto.title : '');
+    formData.append('name', name);
+    formData.append('place', place);
+    formData.append('comment', text);
+
+    const res = await fetch('https://app.forminit.com/f/p24h6j2jh83', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (res.ok) {
+      showToast('Thank you! Your comment has been submitted for review.');
+      ['comment-name','comment-place','comment-text'].forEach(id => document.getElementById(id).value = '');
+      closeLightbox();
+    } else {
+      showToast('Something went wrong — please try again.');
     }
-
-    if (text.length < 20) {
-        showToast('A little more thought, please — at least a sentence.');
-        return;
-    }
-
-    // Create a temporary hidden form to submit naturally
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = 'https://app.forminit.com/f/p24h6j2jh83';
-
-    const fields = {
-        '_subject': 'New comment on: ' + (activePhoto ? activePhoto.title : 'a photo'),
-        'type': 'comment',
-        'photo': activePhoto ? activePhoto.title : '',
-        'name': name,
-        'place': place,
-        'comment': text
-    };
-
-    for (const [key, value] of Object.entries(fields)) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = value;
-        form.appendChild(input);
-    }
-
-    document.body.appendChild(form);
-    form.submit();
+  } catch(e) {
+    showToast('Something went wrong — please try again.');
+  } finally {
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
 }
-
 async function submitContribution() {
   const name = document.getElementById('contrib-name').value.trim();
   const location = document.getElementById('contrib-location').value.trim();
@@ -1150,21 +1150,21 @@ async function submitContribution() {
       formData.append('photo', fileInput.files[0]);
     }
 
-    // Direct submission to your Forminit endpoint
     const res = await fetch('https://app.forminit.com/f/p24h6j2jh83', {
       method: 'POST',
-      mode: 'no-cors', // Bypasses the strict cross-origin restrictions
       body: formData
     });
 
-    // Since 'no-cors' mode hides the server response status, we treat a completed network request as success
-    showToast('Submitted! We\'ll review and be in touch. Thank you for contributing.');
-    ['contrib-name','contrib-location','contrib-note','contrib-email'].forEach(id => document.getElementById(id).value = '');
-    fileInput.value = '';
-    document.getElementById('file-name').style.display = 'none';
-
+    if (res.ok) {
+      showToast('Submitted! We\'ll review and be in touch. Thank you for contributing.');
+      ['contrib-name','contrib-location','contrib-note','contrib-email'].forEach(id => document.getElementById(id).value = '');
+      fileInput.value = '';
+      document.getElementById('file-name').style.display = 'none';
+    } else {
+      showToast('Something went wrong — please try again.');
+    }
   } catch(e) {
-    showToast('Could not send — check your connection and try again.');
+    showToast('Something went wrong — please try again.');
   } finally {
     btn.textContent = 'Submit for review';
     btn.disabled = false;
