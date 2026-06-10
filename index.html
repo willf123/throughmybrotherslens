@@ -1082,46 +1082,48 @@ document.getElementById('lightbox').addEventListener('click', function(e) {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
-async function submitComment() {
-  const name = document.getElementById('comment-name').value.trim();
-  const place = document.getElementById('comment-place').value.trim();
-  const text = document.getElementById('comment-text').value.trim();
+function submitComment() {
+    const name = document.getElementById('comment-name').value.trim();
+    const place = document.getElementById('comment-place').value.trim();
+    const text = document.getElementById('comment-text').value.trim();
 
-  if (!name || !text) { showToast('Please fill in your name and note.'); return; }
-  if (text.length < 20) { showToast('A little more thought, please — at least a sentence.'); return; }
-
-  const btn = document.querySelector('.comment-form .btn-primary');
-  btn.textContent = 'Sending…';
-  btn.disabled = true;
-
-  try {
-        const formData = new FormData();
-        formData.append('_subject', 'New comment on: ' + (activePhoto ? activePhoto.title : 'a photo'));
-        formData.append('type', 'comment');
-        formData.append('photo', activePhoto ? activePhoto.title : '');
-        formData.append('name', name);
-        formData.append('place', place);
-        formData.append('comment', text);
-
-        const res = await fetch('https://app.forminit.com/f/p24h6j2jh83', {
-            method: 'POST',
-            body: formData
-        });
-    if (res.ok) {
-      showToast('Thank you! Your note is awaiting review before appearing here.');
-      closeLightbox();
-    } else {
-      showToast('Something went wrong — please try again.');
+    if (!name || !text) {
+        showToast('Please fill in your name and note.');
+        return;
     }
-  } catch(e) {
-    showToast('Could not send — check your connection and try again.');
-  } finally {
-    btn.textContent = 'Submit for review';
-    btn.disabled = false;
-  }
+
+    if (text.length < 20) {
+        showToast('A little more thought, please — at least a sentence.');
+        return;
+    }
+
+    // Create a temporary hidden form to submit naturally
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://app.forminit.com/f/p24h6j2jh83';
+
+    const fields = {
+        '_subject': 'New comment on: ' + (activePhoto ? activePhoto.title : 'a photo'),
+        'type': 'comment',
+        'photo': activePhoto ? activePhoto.title : '',
+        'name': name,
+        'place': place,
+        'comment': text
+    };
+
+    for (const [key, value] of Object.entries(fields)) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
 }
 
-async function submitContribution() {
+function submitContribution() {
   const name = document.getElementById('contrib-name').value.trim();
   const location = document.getElementById('contrib-location').value.trim();
   const note = document.getElementById('contrib-note').value.trim();
@@ -1135,39 +1137,37 @@ async function submitContribution() {
   btn.textContent = 'Sending…';
   btn.disabled = true;
 
-  try {
-    const formData = new FormData();
-    formData.append('_subject', 'New photo contribution from ' + name);
-    formData.append('type', 'contribution');
-    formData.append('name', name);
-    formData.append('location', location);
-    formData.append('note', note);
-    formData.append('email', email);
-    if (fileInput.files[0]) {
-      formData.append('photo', fileInput.files[0]);
-    }
+  // Create a temporary form to submit natively and bypass CORS blocks
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = 'https://app.forminit.com/f/p24h6j2jh83';
+  form.enctype = 'multipart/form-data';
 
-    const res = await fetch('https://app.forminit.com/f/p24h6j2jh83', {
-      method: 'POST',
-      body: formData
-    });
+  const fields = {
+    '_subject': 'New photo contribution from ' + name,
+    'type': 'contribution',
+    'name': name,
+    'location': location,
+    'note': note,
+    'email': email
+  };
 
-    if (res.ok) {
-      showToast('Submitted! We\'ll review and be in touch. Thank you for contributing.');
-      ['contrib-name','contrib-location','contrib-note','contrib-email'].forEach(id => document.getElementById(id).value = '');
-      fileInput.value = '';
-      document.getElementById('file-name').style.display = 'none';
-    } else {
-      showToast('Something went wrong — please try again.');
-    }
-  } catch(e) {
-    showToast('Could not send — check your connection and try again.');
-  } finally {
-    btn.textContent = 'Submit for review';
-    btn.disabled = false;
+  for (const [key, value] of Object.entries(fields)) {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = key;
+    input.value = value;
+    form.appendChild(input);
   }
-}
 
+  if (fileInput.files[0]) {
+    // Clone the file input into our background form for processing
+    form.appendChild(fileInput.cloneNode(true));
+  }
+
+  document.body.appendChild(form);
+  form.submit();
+}
 function shareVia(method) {
   const url = window.location.href;
   if (method === 'copy') {
