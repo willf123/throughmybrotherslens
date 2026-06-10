@@ -929,41 +929,44 @@ const PHOTOS = [
   {
     id: 1,
     featured: true,
-    src: "lakesunset.jpg",
-    placeholder: "Golden hour, Rhode Island coastline",
-    gradientA: "#d4a55a", gradientB: "#7a5a2a",
-    title: "The last light over the water",
-    location: "Warwick, Rhode Island",
-    date: "June 8, 2026",
-    note: "He sent this one just before 8 pm. No message, just the photo. That's all it needed.",
+    src: "photo_sunset_ocean.jpg",
+    placeholder: null,
+    gradientA: "#c47050", gradientB: "#804030",
+    title: "Fire at the edge of the world",
+    location: "Atlantic coast, Florida",
+    date: "Recent",
+    note: "That orange — it didn't look real. The clouds had parted just enough to let the sun say goodnight properly.",
     comments: [
-      { name: "John", place: "Portland, OR", avatar: "#7a9162", text: "The way the water is catching that warm light — I could almost feel the warmth on my face." },
-      { name: "Marcus", place: "Edinburgh, Scotland", avatar: "#3a5e72", text: "I've stood on cliffs like this and it never gets ordinary. Thank you for sharing it." }
+      { name: "Elaine", place: "Portland, OR", avatar: "#7a9162", text: "The way the light punches through those storm clouds is something else. Nature showing off." },
+      { name: "Marcus", place: "Edinburgh, Scotland", avatar: "#3a5e72", text: "I've watched a lot of sunsets. Very few look like this. The sea going dark while the sky stays ablaze." }
     ]
   },
   {
     id: 2,
-    src: "photopier.jpg",
-    placeholder: "Dawn mist over a mountain valley",
+    src: "photo_pier.jpg",
+    placeholder: null,
     gradientA: "#a0b8c8", gradientB: "#5a7080",
-    title: "Before the valley woke up",
-    location: "Blue Ridge Parkway, Virginia",
-    date: "March 3, 2025",
-    note: "He pulled over on the way to somewhere else. Glad he did.",
+    title: "What the old pier left behind",
+    location: "Coastline at dusk",
+    date: "Recent",
+    note: "These old pilings have been here so long the sea has made them its own. He waited for the tide to pull back.",
     comments: [
-      { name: "Vera", place: "Zurich", avatar: "#8b4a2a", text: "That thin band of mist between the ridges — it looks like the mountains are breathing." }
+      { name: "Vera", place: "Zurich", avatar: "#8b4a2a", text: "The reflections in the wet sand make it look like the posts go on forever downward." }
     ]
   },
   {
     id: 3,
-    src: "photosunset.jpg",
-    placeholder: "Rocky coastline, stormy sky",
-    gradientA: "#607080", gradientB: "#304050",
-    title: "Between the squalls",
-    location: "Acadia National Park, Maine",
-    date: "October 11, 2024",
-    note: "Apparently it was 40 degrees and starting to rain. He still got out of the car.",
-    comments: []
+    src: "photo_lake_sunset.jpg",
+    placeholder: null,
+    gradientA: "#c4903a", gradientB: "#7a5a20",
+    title: "The path the sun drew on the water",
+    location: "Lake at golden hour",
+    date: "Recent",
+    note: "That single line of gold across the whole lake. He said everything went quiet right when he took this.",
+    comments: [
+      { name: "Hana", place: "Kyoto, Japan", avatar: "#8b4a2a", text: "The star-burst of the sun between the trees — I keep looking at this one." },
+      { name: "Priya", place: "Austin, TX", avatar: "#4a5e3a", text: "The reflection on the water is almost perfectly symmetrical. What a moment to catch." }
+    ]
   },
   {
     id: 4,
@@ -972,12 +975,9 @@ const PHOTOS = [
     gradientA: "#c47050", gradientB: "#804030",
     title: "The desert going quiet",
     location: "Joshua Tree, California",
-    date: "January 29, 2025",
-    note: "He camped out here for a weekend. This was the reward.",
-    comments: [
-      { name: "Priya", place: "Austin, TX", avatar: "#4a5e3a", text: "The silhouette of that Joshua tree against the gradient of the sky — it's like a woodcut print." },
-      { name: "Tom", place: "London, UK", avatar: "#3a5e72", text: "I've never been to the desert. This makes me want to go." }
-    ]
+    date: "Coming soon",
+    note: "More pictures on their way.",
+    comments: []
   },
   {
     id: 5,
@@ -985,47 +985,21 @@ const PHOTOS = [
     placeholder: "Autumn forest path, light filtering through leaves",
     gradientA: "#c4903a", gradientB: "#7a5a20",
     title: "Walking into October",
-    location: "Shenandoah Valley, Virginia",
-    date: "October 28, 2024",
-    note: "He walks the same trail every fall. Says it changes every year.",
-    comments: []
-  },
-  {
-    id: 6,
-    src: null,
-    placeholder: "Tide pools at low tide, early morning",
-    gradientA: "#5a9090", gradientB: "#2a5060",
-    title: "What the tide left behind",
-    location: "Cannon Beach, Oregon",
-    date: "February 8, 2025",
-    note: "This took patience. He waited for the sea star to not move.",
-    comments: [
-      { name: "Hana", place: "Kyoto, Japan", avatar: "#8b4a2a", text: "The reflections in the pools look like little windows into another world." }
-    ]
-  },
-  {
-    id: 7,
-    src: null,
-    placeholder: "Thunderstorm over open plains",
-    gradientA: "#607890", gradientB: "#2a3040",
-    title: "The storm that passed to the south",
-    location: "Flint Hills, Kansas",
-    date: "June 3, 2025",
-    note: "He pulled over on the highway. Said the whole sky was alive.",
+    location: "Coming soon",
+    date: "Coming soon",
+    note: "More pictures on their way.",
     comments: []
   },
   {
     id: 8,
     src: null,
-    placeholder: "Alpine meadow, wildflowers in bloom",
+    placeholder: "More pictures arriving daily",
     gradientA: "#7aac7a", gradientB: "#3a6a3a",
-    title: "A field that couldn't help itself",
-    location: "Mount Rainier, Washington",
-    date: "July 19, 2024",
-    note: "He hiked six miles to get here. Says it was worth every step.",
-    comments: [
-      { name: "Brigid", place: "Dublin, Ireland", avatar: "#4a5e3a", text: "I study plants and still nothing prepares you for a meadow like this in full bloom." }
-    ]
+    title: "More on the way",
+    location: "Wherever he wanders next",
+    date: "Check back soon",
+    note: "He sends one every day. This gallery will keep growing.",
+    comments: []
   }
 ];
 
@@ -1108,7 +1082,7 @@ document.getElementById('lightbox').addEventListener('click', function(e) {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
-function submitComment() {
+async function submitComment() {
   const name = document.getElementById('comment-name').value.trim();
   const place = document.getElementById('comment-place').value.trim();
   const text = document.getElementById('comment-text').value.trim();
@@ -1116,22 +1090,81 @@ function submitComment() {
   if (!name || !text) { showToast('Please fill in your name and note.'); return; }
   if (text.length < 20) { showToast('A little more thought, please — at least a sentence.'); return; }
 
-  showToast('Thank you! Your note is awaiting review before appearing here.');
-  closeLightbox();
+  const btn = document.querySelector('.comment-form .btn-primary');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('https://formspree.io/f/xjgdozjw', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'New comment on: ' + (activePhoto ? activePhoto.title : 'a photo'),
+        type: 'comment',
+        photo: activePhoto ? activePhoto.title : '',
+        name, place, comment: text
+      })
+    });
+    if (res.ok) {
+      showToast('Thank you! Your note is awaiting review before appearing here.');
+      closeLightbox();
+    } else {
+      showToast('Something went wrong — please try again.');
+    }
+  } catch(e) {
+    showToast('Could not send — check your connection and try again.');
+  } finally {
+    btn.textContent = 'Submit for review';
+    btn.disabled = false;
+  }
 }
 
-function submitContribution() {
+async function submitContribution() {
   const name = document.getElementById('contrib-name').value.trim();
   const location = document.getElementById('contrib-location').value.trim();
   const note = document.getElementById('contrib-note').value.trim();
   const email = document.getElementById('contrib-email').value.trim();
+  const fileInput = document.getElementById('file-input');
 
   if (!name || !location || !note) { showToast('Please fill in all the fields.'); return; }
   if (note.length < 30) { showToast('Tell us a bit more about what made you stop and look.'); return; }
 
-  showToast('Submitted! We\'ll review and be in touch. Thank you for contributing.');
-  ['contrib-name','contrib-location','contrib-note','contrib-email'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('file-name').style.display = 'none';
+  const btn = document.querySelector('#contribute .btn-primary');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  try {
+    const formData = new FormData();
+    formData.append('_subject', 'New photo contribution from ' + name);
+    formData.append('type', 'contribution');
+    formData.append('name', name);
+    formData.append('location', location);
+    formData.append('note', note);
+    formData.append('email', email);
+    if (fileInput.files[0]) {
+      formData.append('photo', fileInput.files[0]);
+    }
+
+    const res = await fetch('https://formspree.io/f/xjgdozjw', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: formData
+    });
+
+    if (res.ok) {
+      showToast('Submitted! We\'ll review and be in touch. Thank you for contributing.');
+      ['contrib-name','contrib-location','contrib-note','contrib-email'].forEach(id => document.getElementById(id).value = '');
+      fileInput.value = '';
+      document.getElementById('file-name').style.display = 'none';
+    } else {
+      showToast('Something went wrong — please try again.');
+    }
+  } catch(e) {
+    showToast('Could not send — check your connection and try again.');
+  } finally {
+    btn.textContent = 'Submit for review';
+    btn.disabled = false;
+  }
 }
 
 function shareVia(method) {
